@@ -1,0 +1,65 @@
+﻿@model mypassionproject.Models.PetDto
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>DeleteConfirm</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Pet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetDatebirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetDatebirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetBreed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetBreed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetBio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetBio)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Pet", new { id = Model.PetID }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "List")
+        </div>
+    }
+</div>

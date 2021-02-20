@@ -1,0 +1,91 @@
+﻿@model mypassionproject.Models.ViewModels.ShowClient
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Client @Model.client.ClientFirstName</h2>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <div>@Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.client.ClientID })</div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.client.ClientFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.client.ClientLastName)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayNameFor(model => model.client.ClientPhone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientEmail)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.client.ClientEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.client.ClientAddress)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.client.ClientAddress)
+        </dd>
+    </dl>
+</div>
+
+    <div>
+        <h4>Pets:</h4>
+        <div>
+            @foreach (var pet in Model.clientpets)
+            {
+                <div>
+                    @Html.ActionLink(
+                    pet.PetName,
+                    "Details",
+                    "Pet",
+                    new { id = pet.PetID },
+                    new { })
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        <h4>Bookings:</h4>
+            <div>
+                @foreach (var booking in Model.clientbookings)
+                {
+                    <div>
+                        @Html.ActionLink(
+                        booking.BookingDes,
+                        "Details",
+                        "Booking",
+                        new { id = booking.BookingID },
+                        new { })
+                    </div>
+                }
+            </div>
+    </div>
+
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.client.ClientID }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

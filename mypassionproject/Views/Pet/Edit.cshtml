@@ -1,0 +1,86 @@
+﻿@model mypassionproject.Models.ViewModels.UpdatePet
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Pet</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.pet.PetID, new { Name = "PetID" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.PetName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pet.PetName, new { htmlAttributes = new { @class = "form-control", Name = "PetName" } })
+                @Html.ValidationMessageFor(model => model.pet.PetName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.PetDatebirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pet.PetDatebirth, new { htmlAttributes = new { @class = "form-control", Name = "PetDatebirth" } })
+                @Html.ValidationMessageFor(model => model.pet.PetDatebirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.PetType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pet.PetType, new { htmlAttributes = new { @class = "form-control", Name = "PetType" } })
+                @Html.ValidationMessageFor(model => model.pet.PetType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.PetBreed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pet.PetBreed, new { htmlAttributes = new { @class = "form-control", Name = "PetBreed" } })
+                @Html.ValidationMessageFor(model => model.pet.PetBreed, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.PetBio, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.pet.PetBio, new { htmlAttributes = new { @class = "form-control", Name = "PetBio" } })
+                @Html.ValidationMessageFor(model => model.pet.PetBio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pet.ClientID, "ClientID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="ClientID">
+                    @foreach (var client in Model.allclients)
+                    {
+                        <option value="@client.ClientID">@client.ClientFirstName</option>
+                    }
+                </select>
+
+              
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>
+
+

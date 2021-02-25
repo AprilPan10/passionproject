@@ -129,7 +129,7 @@ namespace mypassionproject.Controllers
                 ViewModel.booking = SelectedBooking;
 
                 //get information about clients this booking could belong to.
-                url = "clientata/getclients";
+                url = "clientdata/getclients";
                 response = client.GetAsync(url).Result;
                 //have problems with the code below Jason Array
                 IEnumerable<ClientDto> PotentialClients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;

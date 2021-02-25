@@ -80,7 +80,7 @@ namespace mypassionproject.Controllers
                 ViewModel.clientpets = SelectedPets;
 
 
-                url = "clientata/getbookingsforclient/" + id;
+                url = "clientdata/getbookingsforclient/" + id;
                 response = client.GetAsync(url).Result;
                 //Can catch the status code (200 OK, 301 REDIRECT), etc.
                 //Debug.WriteLine(response.StatusCode);

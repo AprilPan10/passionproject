@@ -167,6 +167,7 @@ namespace mypassionproject.Controllers
         }
 
         // GET: Booking/Delete/5
+        [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "bookingdata/findbooking/" + id;

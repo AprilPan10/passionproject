@@ -166,6 +166,7 @@ namespace mypassionproject.Controllers
         }
 
         // GET: Pet/Delete/5
+        [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "petdata/findpet/" + id;

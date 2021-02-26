@@ -171,7 +171,7 @@ namespace mypassionproject.Controllers
 
         // GET: Client/Delete/5
         [HttpGet]
-        public ActionResult DeleteConfirmation(int id)
+        public ActionResult DeleteConfirm(int id)
         {
             string url = "clientdata/findclient/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;

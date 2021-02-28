@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mypassionproject.Models.ClientDto>
+@model IEnumerable<mypassionproject.Models.ClientDto>
 
 @{
     ViewBag.Title = "View";
@@ -7,9 +7,10 @@
 <h2>List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-add btn-small" href="Create">Create New</a>
+   
 </p>
-<table class="table">
+<table class="table table-add">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ClientFirstName)
@@ -48,8 +49,14 @@
                 @Html.DisplayFor(modelItem => item.ClientAddress)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ClientID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ClientID })
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientID }) 
+                   
+                </div>
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Details", "Details", new { id = item.ClientID })
+                </div>
+                
             </td>
         </tr>
     }

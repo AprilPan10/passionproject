@@ -1,68 +1,78 @@
-﻿@model mypassionproject.Models.ViewModels.UpdateBooking
+@model mypassionproject.Models.ClientDto
+
 
 @{
     ViewBag.Title = "View";
 }
 
-<h2>Edit</h2>
+<h2>Update</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    
+<div class="total-form">
+    <h2 class="fixtitle">Edit Client Profile</h2>
+    <div class="form-horizontal form-add">
 
-    <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.booking.BookingID, new { Name = "BookingID" })
+        @Html.HiddenFor(model => model.ClientID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.booking.BookingPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClientFirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.booking.BookingPrice, new { htmlAttributes = new { @class = "form-control", Name = "BookingPrice" } })
-                @Html.ValidationMessageFor(model => model.booking.BookingPrice, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ClientFirstName, new { htmlAttributes = new { @class = "form-control", Name = "ClientFirstName" } })
+                @Html.ValidationMessageFor(model => model.ClientFirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.booking.BookingDes, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClientLastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.booking.BookingDes, new { htmlAttributes = new { @class = "form-control", Name = "BookingDes" } })
-                @Html.ValidationMessageFor(model => model.booking.BookingDes, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ClientLastName, new { htmlAttributes = new { @class = "form-control", Name = "ClientLastName" } })
+                @Html.ValidationMessageFor(model => model.ClientLastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClientPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClientPhone, new { htmlAttributes = new { @class = "form-control", Name = "ClientPhone" } })
+                @Html.ValidationMessageFor(model => model.ClientPhone, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.booking.BookingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClientEmail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.booking.BookingDate, new { htmlAttributes = new { @class = "form-control", Name = "BookingDate" } })
-                @Html.ValidationMessageFor(model => model.booking.BookingDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ClientEmail, new { htmlAttributes = new { @class = "form-control", Name = "ClientEmail" } })
+                @Html.ValidationMessageFor(model => model.ClientEmail, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.booking.ClientID, "ClientID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClientAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="ClientID">
-                    @foreach (var client in Model.allclients)
-                    {
-                        <option value="@client.ClientID">@client.ClientFirstName</option>
-                    }
-                </select>
-
+                @Html.EditorFor(model => model.ClientAddress, new { htmlAttributes = new { @class = "form-control", Name = "ClientAddress" } })
+                @Html.ValidationMessageFor(model => model.ClientAddress, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-add btn-small" />
             </div>
         </div>
     </div>
+
+</div>
+
 }
 
-<div>
+<div class="btn btn-back">
     @Html.ActionLink("Back to List", "List")
 </div>
 

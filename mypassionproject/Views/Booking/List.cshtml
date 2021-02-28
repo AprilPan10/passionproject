@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mypassionproject.Models.BookingDto>
+@model IEnumerable<mypassionproject.Models.ClientDto>
 
 @{
     ViewBag.Title = "View";
@@ -7,18 +7,25 @@
 <h2>List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-add btn-small" href="Create">Create New</a>
+   
 </p>
-<table class="table">
+<table class="table table-add">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.BookingPrice)
+            @Html.DisplayNameFor(model => model.ClientFirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BookingDes)
+                @Html.DisplayNameFor(model => model.ClientLastName)
+            </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientPhone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BookingDate)
+            @Html.DisplayNameFor(model => model.ClientEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientAddress)
         </th>
         <th></th>
     </tr>
@@ -27,17 +34,29 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BookingPrice)
+                @Html.DisplayFor(modelItem => item.ClientFirstName)
+            </td>
+           <td>
+                    @Html.DisplayFor(modelItem => item.ClientLastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookingDes)
+                @Html.DisplayFor(modelItem => item.ClientPhone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookingDate)
+                @Html.DisplayFor(modelItem => item.ClientEmail)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BookingID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.BookingID }) |
+                @Html.DisplayFor(modelItem => item.ClientAddress)
+            </td>
+            <td>
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientID }) 
+                   
+                </div>
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Details", "Details", new { id = item.ClientID })
+                </div>
+                
             </td>
         </tr>
     }

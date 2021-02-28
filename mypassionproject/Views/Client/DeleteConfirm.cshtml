@@ -1,15 +1,12 @@
-﻿@model mypassionproject.Models.ClientDto
+@model mypassionproject.Models.ClientDto
 
 @{
     ViewBag.Title = "View";
 }
 
-<h2>DeleteConfirm</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Client</h4>
-    <hr />
+<div class="total-form backbtn">
+    <h2 class="fixtitle backbtn">Are you sure you want to delete?</h2>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.ClientFirstName)
@@ -56,10 +53,13 @@
     @using (Html.BeginForm("Delete", "Client", new { id = Model.ClientID }))
     {
         @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+<div class="col-md-12 buttons">
+    <div class="form-actions no-color buttons">
+        <input type="submit" value="Delete" class="btn btn-delete" />
+        <div class="btn btn-back">
             @Html.ActionLink("Back to List", "List")
         </div>
+    </div>
+    </div>
     }
 </div>

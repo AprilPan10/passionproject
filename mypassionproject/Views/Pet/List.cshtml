@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mypassionproject.Models.PetDto>
+@model IEnumerable<mypassionproject.Models.PetDto>
 
 @{
     ViewBag.Title = "View";
@@ -7,9 +7,10 @@
 <h2>List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-add btn-small" href="Create">Create New</a>
+    
 </p>
-<table class="table">
+<table class="table table-add">
     <tr>
 
         <th>
@@ -50,8 +51,12 @@
                 @Html.DisplayFor(modelItem => item.PetBio)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PetID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PetID }) |
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PetID })
+                </div>
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Details", "Details", new { id = item.PetID })
+                </div>
             </td>
         </tr>
     }

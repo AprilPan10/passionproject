@@ -1,18 +1,19 @@
-@model mypassionproject.Models.ViewModels.ShowClient
+@model mypassionproject.Models.ViewModels.ShowBooking
 
 @{
     ViewBag.Title = "Details";
 }
-<div class="col-md-12 backbtn">
-    <div class="btn btn-back">
-        @Html.ActionLink("Back to List", "List")
-    </div>
-</div>
+<h2>Details</h2>
 <div>
-
+    <div class="col-md-12">
+        <div class="btn btn-back">
+            @Html.ActionLink("Back to List", "List")
+        </div>
+    </div>
     <div class="col-md-6 images"><img src="~/Content/images/client2.jpg" width="350" /></div>
+
     <dl class="dl-horizontal col-md-6 details">
-        <h2 class="fixtitle">User Profile Details</h2>
+        <h2 class="fixtitle">Booking Details</h2>
         <div class="information">
             <dt>
                 @Html.DisplayNameFor(model => model.client.ClientFirstName)
@@ -21,71 +22,44 @@
             <dd>
                 @Html.DisplayFor(model => model.client.ClientFirstName)
             </dd>
+
             <dt>
-                @Html.DisplayNameFor(model => model.client.ClientLastName)
+                @Html.DisplayNameFor(model => model.booking.BookingPrice)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.client.ClientLastName)
+                @Html.DisplayFor(model => model.booking.BookingPrice)
             </dd>
 
-
             <dt>
-                @Html.DisplayNameFor(model => model.client.ClientPhone)
+                @Html.DisplayNameFor(model => model.booking.BookingDes)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.client.ClientPhone)
+                @Html.DisplayFor(model => model.booking.BookingDes)
             </dd>
+
             <dt>
-                @Html.DisplayNameFor(model => model.client.ClientEmail)
+                @Html.DisplayNameFor(model => model.booking.BookingDate)
             </dt>
+
             <dd>
-                @Html.DisplayFor(model => model.client.ClientEmail)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.client.ClientAddress)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.client.ClientAddress)
+                @Html.DisplayFor(model => model.booking.BookingDate)
             </dd>
         </div>
     </dl>
-    <div class="display">
-        <div class="col-md-3">
-
-            <div>
-                @foreach (var pet in Model.clientpets)
-                {
-                    <div class="links">
-                        <h3 class="fixtitle">My pets</h3>
-                        @Html.ActionLink(
-                        pet.PetName,
-                        "Details",
-                        "Pet",
-                        new { id = pet.PetID },
-                        new { })
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="col-md-3">
-
-            <div>
-                @foreach (var booking in Model.clientbookings)
-                {
-                    <div class="links">
-                        <h3 class="fixtitle">My booking</h3>
-                        @Html.ActionLink(
-                        booking.BookingDes,
-                        "Details",
-                        "Booking",
-                        new { id = booking.BookingID },
-                        new { })
-                    </div>
-                }
-            </div>
-        </div>
-
-    </div>
 </div>
+    <p>
+        <div class="col-md-12 buttons">
+            <div class="col-md-6">
+                <div class="btn btn-delete">@Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.booking.BookingID })</div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn btn-add btn-small">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.booking.BookingID })
+                </div>
+             </div>
+            </div>
+
+
+</p>

@@ -1,4 +1,4 @@
-@model mypassionproject.Models.ClientDto
+@model mypassionproject.Models.BookingDto
 
 @{
     ViewBag.Title = "View";
@@ -9,48 +9,32 @@
     <h2 class="fixtitle backbtn">Are you sure you want to delete?</h2>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ClientFirstName)
+            @Html.DisplayNameFor(model => model.BookingPrice)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientFirstName)
-        </dd>
-
-       <dt>
-                @Html.DisplayNameFor(model => model.ClientLastName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ClientLastName)
-            </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ClientPhone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ClientPhone)
+            @Html.DisplayFor(model => model.BookingPrice)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ClientEmail)
+            @Html.DisplayNameFor(model => model.BookingDes)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientEmail)
+            @Html.DisplayFor(model => model.BookingDes)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ClientAddress)
+            @Html.DisplayNameFor(model => model.BookingDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientAddress)
+            @Html.DisplayFor(model => model.BookingDate)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm("Delete", "Client", new { id = Model.ClientID }))
+    @using (Html.BeginForm("Delete", "Booking", new { id = Model.BookingID }))
     {
         @Html.AntiForgeryToken()
 <div class="col-md-12 buttons">
@@ -59,6 +43,7 @@
         <div class="btn btn-back">
             @Html.ActionLink("Back to List", "List")
         </div>
+
     </div>
     </div>
     }

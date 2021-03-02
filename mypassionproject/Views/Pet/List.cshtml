@@ -10,6 +10,16 @@
     <a class="btn btn-add btn-small" href="Create">Create New</a>
     
 </p>
+<div class="paginate">
+    @{
+        int PrevPage = Convert.ToInt32(ViewData["PageNum"]) - 1;
+        int NextPage = Convert.ToInt32(ViewData["PageNum"]) + 1;
+        @Html.ActionLink("Prev", "List", new { PageNum = PrevPage })
+        @ViewData["PageSummary"]
+        @Html.ActionLink("Next", "List", new { PageNum = NextPage })
+    }
+</div>
+
 <table class="table table-add">
     <tr>
 

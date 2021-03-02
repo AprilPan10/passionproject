@@ -10,7 +10,7 @@
 </div>
 <div>
 
-    <div class="col-md-6 images"><img src="~/Content/images/client2.jpg" width="350" /></div>
+    <div class="col-md-6 images"><img src="~/Content/images/user1.jpg" width="350" /></div>
     <dl class="dl-horizontal col-md-6 details">
         <h2 class="fixtitle">User Profile Details</h2>
         <div class="information">
@@ -55,16 +55,16 @@
         <div class="col-md-3">
 
             <div>
+                <h3 class="fixtitle">My pets</h3>
                 @foreach (var pet in Model.clientpets)
                 {
                     <div class="links">
-                        <h3 class="fixtitle">My pets</h3>
                         @Html.ActionLink(
-                        pet.PetName,
-                        "Details",
-                        "Pet",
-                        new { id = pet.PetID },
-                        new { })
+                         pet.PetName,
+                         "Details",
+                         "Pet",
+                         new { id = pet.PetID },
+                         new { })
                     </div>
                 }
             </div>
@@ -72,10 +72,11 @@
         <div class="col-md-3">
 
             <div>
+                <h3 class="fixtitle">My booking</h3>
                 @foreach (var booking in Model.clientbookings)
                 {
                     <div class="links">
-                        <h3 class="fixtitle">My booking</h3>
+
                         @Html.ActionLink(
                         booking.BookingDes,
                         "Details",
@@ -89,6 +90,28 @@
 
     </div>
 </div>
+
+
+
+
+
+<p>
+    <div class="col-md-6 buttons">
+
+        <div class="col-md-6">
+            <div class="btn btn-delete">@Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.client.ClientID })</div>
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-add btn-small">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.client.ClientID })
+            </div>
+        </div>
+
+    </div>
+
+
+
+</p>
 
 
 

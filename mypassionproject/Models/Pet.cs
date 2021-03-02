@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +18,8 @@ namespace mypassionproject.Models
         public string PetType { get; set; }
         public string PetBreed { get; set; }
         public string PetBio { get; set; }
+        public bool PetHasPic { get; set; }
+        public string PicExtension { get; set; }
         //a pet has one owner
         [ForeignKey("Client")]
         public int ClientID { get; set; }
@@ -36,6 +38,8 @@ namespace mypassionproject.Models
         public string PetBreed { get; set; }
         [DisplayName("Bio")]
         public string PetBio { get; set; }
+        public bool PetHasPic { get; set; }
+        public string PicExtension { get; set; }
         public int ClientID { get; set; }
 
     }

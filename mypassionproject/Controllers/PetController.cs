@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 using mypassionproject.Models;
 using mypassionproject.Models.ViewModels;
 using System.Net.Http;
@@ -39,14 +40,49 @@ namespace mypassionproject.Controllers
         }
 
         // GET: Pet/List
-        public ActionResult List()
+        public ActionResult List(int PageNum = 0)
         {
             string url = "petdata/getpets";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
                 IEnumerable<PetDto> SelectedPets = response.Content.ReadAsAsync<IEnumerable<PetDto>>().Result;
-                return View(SelectedPets);
+                // -- Start of Pagination Algorithm --
+
+                // Find the total number of pets
+                int PetCount = SelectedPets.Count();
+                // Number of pets to display per page
+                int PerPage = 8;
+                // Determines the maximum number of pages (rounded up), assuming a page 0 start.
+                int MaxPage = (int)Math.Ceiling((decimal)PetCount / PerPage) - 1;
+
+                // Lower boundary for Max Page
+                if (MaxPage < 0) MaxPage = 0;
+                // Lower boundary for Page Number
+                if (PageNum < 0) PageNum = 0;
+                // Upper Bound for Page Number
+                if (PageNum > MaxPage) PageNum = MaxPage;
+
+                // The Record Index of our Page Start
+                int StartIndex = PerPage * PageNum;
+
+                //Helps us generate the HTML which shows "Page 1 of ..." on the list view
+                ViewData["PageNum"] = PageNum;
+                ViewData["PageSummary"] = " " + (PageNum + 1) + " of " + (MaxPage + 1) + " ";
+
+                // -- End of Pagination Algorithm --
+
+
+                // Send back another request to get pets, this time according to our paginated logic rules
+                // GET api/petdata/getpetspage/{startindex}/{perpage}
+                url = "petdata/getpetspage/" + StartIndex + "/" + PerPage;
+                response = client.GetAsync(url).Result;
+
+                // Retrieve the response of the HTTP Request
+                IEnumerable<PetDto> SelectedPetsPage = response.Content.ReadAsAsync<IEnumerable<PetDto>>().Result;
+
+                //Return the paginated of players instead of the entire list
+                return View(SelectedPetsPage);
             }
             else
             {
@@ -64,7 +100,7 @@ namespace mypassionproject.Controllers
             //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                //Put data into player data transfer object
+                //Put data into pet data transfer object
                 PetDto SelectedPet = response.Content.ReadAsAsync<PetDto>().Result;
                 ViewModel.pet = SelectedPet;
 
@@ -85,7 +121,12 @@ namespace mypassionproject.Controllers
         // GET: Pet/Create
         public ActionResult Create()
         {
-
+            UpdatePet ViewModel = new UpdatePet();
+            //get information about teams this pet COULD play for.
+            string url = "clientdata/getclients";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<ClientDto> PotentialClients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;
+            ViewModel.allclients = PotentialClients;
             return View();
         }
 
@@ -145,9 +186,9 @@ namespace mypassionproject.Controllers
         // POST: Pet/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Edit(int id, Pet PetInfo)
+        public ActionResult Edit(int id, Pet PetInfo, HttpPostedFileBase PetPic)
         {
-            Debug.WriteLine(PetInfo.PetName);
+            //Debug.WriteLine(PetInfo.PetName);
             string url = "petdata/updatepet/" + id;
             Debug.WriteLine(jss.Serialize(PetInfo));
             HttpContent content = new StringContent(jss.Serialize(PetInfo));
@@ -156,7 +197,19 @@ namespace mypassionproject.Controllers
             Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
+                //only attempt to send pet picture data if we have it
+                if (PetPic != null)
+                {
+                    Debug.WriteLine("Calling Update Image method.");
+                    //Send over image data for pet
+                    url = "petdata/updatepetpic/" + id;
+                    //Debug.WriteLine("Received pet picture "+PetPic.FileName);
 
+                    MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                    HttpContent imagecontent = new StreamContent(PetPic.InputStream);
+                    requestcontent.Add(imagecontent, "PetPic", PetPic.FileName);
+                    response = client.PostAsync(url, requestcontent).Result;
+                }
                 return RedirectToAction("Details", new { id = id });
             }
             else

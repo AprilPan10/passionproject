@@ -37,7 +37,7 @@
     @using (Html.BeginForm("Delete", "Booking", new { id = Model.BookingID }))
     {
         @Html.AntiForgeryToken()
-<div class="col-md-12 buttons">
+<div class="col-md-12 delbuttons">
     <div class="form-actions no-color buttons">
         <input type="submit" value="Delete" class="btn btn-delete" />
         <div class="btn btn-back">

@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.IO;
+using System.Web;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -29,9 +31,10 @@ namespace mypassionproject.Controllers
         /// </summary>
         /// <returns>A list of pets including their ID, name, age, bio, type, breed and clientid.</returns>
         /// <example>
-        // GET: api/PetData
+        // GET: api/petdata/getpets
         /// </example>
         [ResponseType(typeof(IEnumerable<PetDto>))]
+        [Route("api/petdata/getpets")]
         public IHttpActionResult GetPets()
         {
             List<Pet> Pets = db.Pets.ToList();
@@ -48,6 +51,49 @@ namespace mypassionproject.Controllers
                     PetType = Pet.PetType,
                     PetBreed = Pet.PetBreed,
                     PetBio = Pet.PetBio,
+                    PetHasPic = Pet.PetHasPic,
+                    PicExtension = Pet.PicExtension,
+                    ClientID = Pet.ClientID
+                };
+                PetDtos.Add(NewPet);
+            }
+
+            return Ok(PetDtos);
+        }
+        /// <summary>
+        /// Gets a list or pets in the database alongside a status code (200 OK). Skips the first {startindex} records and takes {perpage} records.
+        /// </summary>
+        /// <returns>A list of pets including their ID, bio,  name, and date of birth.</returns>
+        /// <param name="StartIndex">The number of records to skip through</param>
+        /// <param name="PerPage">The number of records for each page</param>
+        /// <example>
+        /// GET: api/PetData/GetPets/20/5
+        /// Retrieves the first 5 pets after skipping 20 (fifth page)
+        /// 
+        /// GET: api/PetData/GetPets/15/3
+        /// Retrieves the first 3 pets after skipping 15 (sixth page)
+        /// 
+        /// </example>
+        [ResponseType(typeof(IEnumerable<PetDto>))]
+        [Route("api/petdata/getpetspage/{StartIndex}/{PerPage}")]
+        public IHttpActionResult GetPetsPage(int StartIndex, int PerPage)
+        {
+            List<Pet> Pets = db.Pets.OrderBy(p => p.PetID).Skip(StartIndex).Take(PerPage).ToList();
+            List<PetDto> PetDtos = new List<PetDto> { };
+
+            //Here you can choose which information is exposed to the API
+            foreach (var Pet in Pets)
+            {
+                PetDto NewPet = new PetDto
+                {
+                    PetID = Pet.PetID,
+                    PetName = Pet.PetName,
+                    PetDatebirth = Pet.PetDatebirth,
+                    PetType = Pet.PetType,
+                    PetBreed = Pet.PetBreed,
+                    PetBio = Pet.PetBio,
+                    PetHasPic = Pet.PetHasPic,
+                    PicExtension = Pet.PicExtension,
                     ClientID = Pet.ClientID
                 };
                 PetDtos.Add(NewPet);
@@ -58,7 +104,7 @@ namespace mypassionproject.Controllers
 
 
         /// <summary>
-        /// Finds a particular player in the database with a 200 status code. If the player is not found, return 404.
+        /// Finds a particular pet in the database with a 200 status code. If the pet is not found, return 404.
         /// </summary>
         /// <param name="id">The pet id</param>
         /// <returns>Information about the pets including their ID, name, age, bio, type, breed and clientid.</returns>
@@ -86,9 +132,11 @@ namespace mypassionproject.Controllers
                 PetType = Pet.PetType,
                 PetBreed = Pet.PetBreed,
                 PetBio = Pet.PetBio,
+                PetHasPic = Pet.PetHasPic,
+                PicExtension = Pet.PicExtension,
                 ClientID = Pet.ClientID
             };
-
+                
 
             //pass along data as 200 status code OK response
             return Ok(PetDto);
@@ -137,11 +185,11 @@ namespace mypassionproject.Controllers
         /// Updates a pet in the database given information about the pet.
         /// </summary>
         /// <param name="id">The pet id</param>
-        /// <param name="pet">A player object. Received as POST data.</param>
+        /// <param name="pet">A pet object. Received as POST data.</param>
         /// <returns></returns>
         /// <example>
         /// POST: api/PetData/UpdatePet/5
-        /// FORM DATA: Player JSON Object
+        /// FORM DATA: Pet JSON Object
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -158,7 +206,9 @@ namespace mypassionproject.Controllers
             }
 
             db.Entry(pet).State = EntityState.Modified;
-
+            // Picture update is handled by another method
+            db.Entry(pet).Property(p => p.PetHasPic).IsModified = false;
+            db.Entry(pet).Property(p => p.PicExtension).IsModified = false;
             try
             {
                 db.SaveChanges();
@@ -177,6 +227,81 @@ namespace mypassionproject.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+        /// <summary>
+        /// Receives pet picture data, uploads it to the webserver and updates the pet's HasPic option
+        /// </summary>
+        /// <param name="id">the pet id</param>
+        /// <returns>status code 200 if successful.</returns>
+        /// <example>
+        /// curl -F petpic=@file.jpg "https://localhost:xx/api/petdata/updatepetpic/2"
+        /// POST: api/PetData/UpdatePetPic/3
+        /// HEADER: enctype=multipart/form-data
+        /// FORM-DATA: image
+        /// </example>
+        /// https://stackoverflow.com/questions/28369529/how-to-set-up-a-web-api-controller-for-multipart-form-data
+
+        [HttpPost]
+        public IHttpActionResult UpdatePetPic(int id)
+        {
+
+            bool haspic = false;
+            string picextension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                Debug.WriteLine("Received multipart form data.");
+
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                Debug.WriteLine("Files Received: " + numfiles);
+
+                //Check if a file is posted
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var PetPic = HttpContext.Current.Request.Files[0];
+                    //Check if the file is empty
+                    if (PetPic.ContentLength > 0)
+                    {
+                        var valtypes = new[] { "jpeg", "jpg", "png", "gif" };
+                        var extension = Path.GetExtension(PetPic.FileName).Substring(1);
+                        //Check the extension of the file
+                        if (valtypes.Contains(extension))
+                        {
+                            try
+                            {
+                                //file name is the id of the image
+                                string fn = id + "." + extension;
+
+                                //get a direct file path to ~/Content/Pets/{id}.{extension}
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Pets/"), fn);
+
+                                //save the file
+                                PetPic.SaveAs(path);
+
+                                //if these are all successful then we can set these fields
+                                haspic = true;
+                                picextension = extension;
+
+                                //Update the player haspic and picextension fields in the database
+                                Pet SelectedPet = db.Pets.Find(id);
+                                SelectedPet.PetHasPic = haspic;
+                                SelectedPet.PicExtension = extension;
+                                db.Entry(SelectedPet).State = EntityState.Modified;
+
+                                db.SaveChanges();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("Pet Image was not saved successfully.");
+                                Debug.WriteLine("Exception:" + ex);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return Ok();
         }
         /// <summary>
         /// Adds a pet to the database.
@@ -218,6 +343,16 @@ namespace mypassionproject.Controllers
             if (pet == null)
             {
                 return NotFound();
+            }
+            if (pet.PetHasPic && pet.PicExtension != "")
+            {
+                //also delete image from path
+                string path = HttpContext.Current.Server.MapPath("~/Content/Pets/" + id + "." + pet.PicExtension);
+                if (System.IO.File.Exists(path))
+                {
+                    Debug.WriteLine("File exists... preparing to delete!");
+                    System.IO.File.Delete(path);
+                }
             }
 
             db.Pets.Remove(pet);

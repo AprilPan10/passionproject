@@ -12,4 +12,7 @@ Code credit: Christine
 ![b2](https://user-images.githubusercontent.com/63117386/109702999-f6a5bb00-7b62-11eb-93de-0e6a026da491.png)
 ![b3](https://user-images.githubusercontent.com/63117386/109703020-fd343280-7b62-11eb-8200-598eec22d3a9.png)
 ## Here is the video
-Check out this video: https://share.vidyard.com/watch/kTpSXK57hRZMceiTrduBfV?
+
+https://user-images.githubusercontent.com/63117386/109742683-836d6a80-7b9d-11eb-9eb4-ab7f6c5e0557.mp4
+
+

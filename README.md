@@ -1,5 +1,6 @@
 # Passion Project
 Code credit: Christine
+In the future, I will add a search feature, client image feature and when the users login they can only see their own information.
 ## Here is my first CRUD features' passion project
 ![m1](https://user-images.githubusercontent.com/63117386/109702855-c8c07680-7b62-11eb-8227-f0c5ebc17ced.png)
 ![c1](https://user-images.githubusercontent.com/63117386/109702899-d83fbf80-7b62-11eb-9509-a64cd22982c3.png)
